@@ -16,7 +16,32 @@ Tài liệu này cung cấp một cái nhìn tổng quan về frontend của H�
 
 ## Cấu trúc dự án
 
-src/ ├── components/ │ ├── ui/ │ │ ├── button.tsx │ │ ├── input.tsx │ │ ├── label.tsx │ │ └── ... ├── data/ │ └── mockUsers.ts ├── hooks/ │ └── useAuth.ts ├── pages/ │ ├── Login.tsx │ ├── RegisterForm.tsx │ └── ... ├── services/ │ └── authService.ts ├── types/ │ ├── auth.ts │ └── user.ts ├── lib/ │ └── validation.ts └── styles/ └── globals.css
+```plaintext
+src/
+├── components/
+│   ├── ui/
+│   │   ├── button.tsx
+│   │   ├── input.tsx
+│   │   ├── label.tsx
+│   │   └── ...
+├── data/
+│   └── mockUsers.ts
+├── hooks/
+│   └── useAuth.ts
+├── pages/
+│   ├── Login.tsx
+│   ├── RegisterForm.tsx
+│   └── ...
+├── services/
+│   └── authService.ts
+├── types/
+│   ├── auth.ts
+│   └── user.ts
+├── lib/
+│   └── validation.ts
+└── styles/
+    └── globals.css
+```
 
 
 ## Các thành phần chính
