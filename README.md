@@ -115,9 +115,9 @@ export const registerSchema = z.object({
 ## Cài đặt và sử dụng
 
 1. **Cài đặt các phụ thuộc**
-   ```sh
-   npm install
-   ```
+```sh
+npm install
+```
 2. **Cài đặt các phụ thuộc**
   ```sh
   npm run dev
