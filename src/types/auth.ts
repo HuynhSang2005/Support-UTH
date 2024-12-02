@@ -1,4 +1,3 @@
-import { User } from './user';
 // Định nghĩa kiểu dữ liệu cho form đăng ký
 export interface RegisterFormData {
   fullName: string;
@@ -21,7 +20,5 @@ export interface PasswordResetFormData {
 export interface AuthApiResponse {
   success: boolean;
   message: string;
-  token?: string;
-  user?: User;
   errors?: Record<string, string>;
 }

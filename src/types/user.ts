@@ -15,7 +15,6 @@ export interface User {
 
 export interface UserWithPassword extends User {
   password: string;
-  token?: string; // Thêm token
 }
 
 export interface LoginCredentials {

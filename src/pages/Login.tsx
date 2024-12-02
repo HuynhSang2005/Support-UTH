@@ -32,6 +32,7 @@ export default function Login() {
   });
 
   const onSubmit = async (data: LoginCredentials) => {
+    console.log(data);
     try {
       setIsLoading(true);
       const response = await loginUser(data);
