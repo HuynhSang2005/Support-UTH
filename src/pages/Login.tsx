@@ -35,19 +35,7 @@ export default function Login() {
     try {
       setIsLoading(true);
       const response = await loginUser(data);
-      if (response.token && response.user) {
-        login(response.token, response.user);
-        toast({
-          title: 'Đăng nhập thành công',
-          description: `Chào mừng ${response.user.fullName}`,
-        });
-      } else {
-        toast({
-          title: 'Lỗi đăng nhập',
-          description: 'Không nhận được thông tin người dùng',
-          variant: 'destructive',
-        });
-      }
+      login(response.token, response.user);
     } catch (error) {
       toast({
         title: 'Lỗi đăng nhập',
@@ -86,7 +74,6 @@ export default function Login() {
             <div className="relative">
               <Input
                 id="password"
-                placeholder="Mật khẩu"
                 type={showPassword ? 'text' : 'password'}
                 {...register('password')}
                 aria-describedby={errors.password ? 'password-error' : undefined}
