@@ -114,7 +114,8 @@ Website này nhằm hỗ trợ sinh viên Đại học Giao thông Vận tải T
 
 Trạng thái gửi ticket hỗ trợ
 
-![image 13](https://github.com/user-attachments/assets/8a7679f6-1cb6-428e-9348-d0e969c750af)
+![image 13](https://github.com/user-attachments/assets/303d7479-0e24-4da7-b38b-53c92df3e66c)
+
 
 ## **Yêu cầu phi chức năng**
 
@@ -125,7 +126,8 @@ Trạng thái gửi ticket hỗ trợ
 
 ## **Cơ sở dữ liệu (PostgreSQL)**
 
-![image 14](https://github.com/user-attachments/assets/db1357c5-72ac-495c-909c-64379ebc28bc)
+![image 14](https://github.com/user-attachments/assets/456993e7-c5d4-42df-a212-6ea192c8c308)
+
 
 1. **Bảng Users (Thông tin người dùng)**
     
@@ -135,21 +137,20 @@ Trạng thái gửi ticket hỗ trợ
     - **username**: varchar(255)
     - **password**: varchar(255)
     - **email**: varchar(255)
-    - **role**: enum('student', 'staff', 'admin')
-    - can_resolve_ticket: boolean
+    - **role**: enum('student', 'staff', 'admin') - (Vai trò của user)
     - **full_name**: varchar(255)
-    - **created_at**: datetime
-    - **updated_at**: datetime
+    - **created_at**: datetime (ngày tạo account)
+    - **updated_at**: datetime (ngày update thông tin account)
 2. **Bảng Tickets (Yêu cầu hỗ trợ)**
     
-    Lưu thông tin về các yêu cầu (tickets) được tạo bởi sinh viên.
+    Lưu thông tin về các yêu cầu phiếu hỗ trợ (tickets) được tạo bởi sinh viên.
     
     - **ticket_id**: int (PK)
-    - **user_id**: int (Foreign Key từ bảng Users, người tạo yêu cầu)
+    - **user_id**: int (Foreign Key từ bảng Users, người tạo yêu cầu - là sinh viên)
     - **category_id**: int (Foreign Key từ bảng Categories)
     - **subject**: varchar(255) (Chủ đề của yêu cầu)
     - **description**: text (Nội dung chi tiết của yêu cầu)
-    - **status**: enum('pending', 'in_progress', 'resolved', 'closed')
+    - **status**: enum('pending', 'in_progress', 'resolved', 'closed') (Trạng thái yêu cầu)
     - **created_at**: datetime
     - **updated_at**: datetime
 3. **Bảng Categories (Danh mục yêu cầu)**
@@ -159,9 +160,8 @@ Trạng thái gửi ticket hỗ trợ
     - **category_id**: int (PK)
     - **name**: varchar(255) (Tên danh mục)
     - **description**: text (Mô tả danh mục)
-    - **assigned_user_id**: int (Foreign Key từ bảng Users, người được phân công giải quyết các yêu cầu trong danh mục này)
-    - **created_at**: datetime
-    - **updated_at**: datetime
+    - **created_at**: datetime (Ngày tạo danh mục)
+    - **updated_at**: datetime (Ngày update danh mục)
 4. **Bảng Comments (Phản hồi)**
     
     Lưu các phản hồi (comments) từ nhiều đối tượng người dùng (sinh viên, staff (giảng viên), admin) trên từng yêu cầu hỗ trợ (ticket).
@@ -171,17 +171,9 @@ Trạng thái gửi ticket hỗ trợ
     - **user_id**: int (Foreign Key từ bảng Users, người phản hồi)
     - **content**: text (Nội dung phản hồi)
     - **created_at**: datetime
-5. **. Bảng Logs (Lịch sử hoạt động)**
-    
-    Lưu lại lịch sử các hành động trên hệ thống (vd: tạo yêu cầu, cập nhật trạng thái, thêm phản hồi).
-    
-    - **log_id**: int (Primary Key)
-    - **user_id**: int (Foreign Key từ bảng Users)
-    - **ticket_id**: int (Foreign Key từ bảng Tickets)
-    - **action**: text (Hành động cụ thể, vd: "created ticket", "updated status", "added comment")
-    - **timestamp**: datetime
 - **Mối quan hệ giữa các bảng**
-    - **Users** và **Tickets** có mối quan hệ **1-n**: Một sinh viên (hoặc giảng viên, admin) có thể tạo nhiều yêu cầu hỗ trợ (tickets), nhưng mỗi ticket chỉ có một người tạo.
-    - **Tickets** và **Categories** có mối quan hệ **n-1**: Mỗi ticket thuộc về một category, nhưng mỗi category có thể bao gồm nhiều ticket.
-    - **Tickets** và **Comments** có mối quan hệ **1-n**: Mỗi ticket có thể nhận nhiều phản hồi từ người dùng, bao gồm sinh viên, giảng viên hoặc admin.
-    - **Users** và **Comments** có mối quan hệ **1-n**: Một người dùng có thể gửi nhiều phản hồi cho các yêu cầu khác nhau, và mỗi phản hồi gắn với một người dùng cụ thể.
+    - **Users** và **Tickets**: Quan hệ **1-n**. Một sinh viên có thể tạo nhiều yêu cầu hỗ trợ (tickets), nhưng mỗi yêu cầu chỉ có một người tạo duy nhất.
+    - **Tickets** và **Categories**: Quan hệ **n-1**. Mỗi phiếu yêu cầu thuộc về một danh mục, nhưng một danh mục có thể bao gồm nhiều phiếu yêu cầu khác nhau.
+    - **Users** và **Categories**: Quan hệ **n-n**. Thông qua bảng trung gian **Category_Asignees**, một giáo viên có thể quản lý nhiều danh mục, và mỗi danh mục có thể do nhiều giáo viên quản lý.
+    - **Tickets** và **Comments**: Quan hệ **1-n**. Mỗi phiếu yêu cầu có thể có nhiều phản hồi từ các người dùng khác nhau.
+    - **Users** và **Comments**: Quan hệ **1-n**. Một người dùng có thể gửi nhiều phản hồi cho các phiếu yêu cầu khác nhau.
