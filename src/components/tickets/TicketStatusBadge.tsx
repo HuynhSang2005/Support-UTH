@@ -1,4 +1,4 @@
-import { TicketStatus } from '../../types/ticket';
+import { TicketStatus, ticketStatusLabels } from '../../types/tickets/ticket';
 import { cn } from '../../lib/utils';
 
 interface TicketStatusBadgeProps {
@@ -7,19 +7,19 @@ interface TicketStatusBadgeProps {
 
 const statusConfig = {
   [TicketStatus.PENDING]: {
-    label: 'Đang chờ',
+    label: ticketStatusLabels[TicketStatus.PENDING],
     className: 'bg-yellow-100 text-yellow-800'
   },
   [TicketStatus.IN_PROGRESS]: {
-    label: 'Đang xử lý',
+    label: ticketStatusLabels[TicketStatus.IN_PROGRESS],
     className: 'bg-blue-100 text-blue-800'
   },
   [TicketStatus.RESOLVED]: {
-    label: 'Đã giải quyết',
+    label: ticketStatusLabels[TicketStatus.RESOLVED],
     className: 'bg-green-100 text-green-800'
   },
   [TicketStatus.CLOSED]: {
-    label: 'Đã đóng',
+    label: ticketStatusLabels[TicketStatus.CLOSED],
     className: 'bg-gray-100 text-gray-800'
   }
 };

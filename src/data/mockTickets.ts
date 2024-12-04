@@ -1,11 +1,12 @@
-import { Ticket, TicketStatus, TicketCategory } from '../types/ticket';
+import { Ticket, TicketStatus } from '../types/tickets/ticket';
+import { TicketCategory } from '../types/tickets/categories';
 
 export const mockTickets: Ticket[] = [
   {
     id: '1',
     title: 'Hỗ trợ đăng ký học phần',
     description: 'Em cần hỗ trợ về việc đăng ký học phần học kỳ 2',
-    category: TicketCategory.ACADEMIC,
+    category: TicketCategory.STUDY_HOMEWORK,
     status: TicketStatus.PENDING,
     createdBy: '1',
     createdAt: new Date('2024-12-01'),
@@ -16,7 +17,7 @@ export const mockTickets: Ticket[] = [
     id: '2',
     title: 'Vấn đề về học phí',
     description: 'Em cần xác nhận về khoản học phí học kỳ này',
-    category: TicketCategory.FINANCIAL,
+    category: TicketCategory.TUITION_PAYMENT,
     status: TicketStatus.IN_PROGRESS,
     createdBy: '1',
     assignedTo: '2',

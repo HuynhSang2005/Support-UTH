@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Ticket, TicketStatus, TicketCategory } from '../../../types/ticket';
+import { Ticket, TicketStatus } from '../../../types/tickets/ticket';
+import { TicketCategory } from '../../../types/tickets/categories';
 import { TicketStatusBadge } from '../../../components/tickets/TicketStatusBadge';
 import {
   Table,

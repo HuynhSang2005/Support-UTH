@@ -5,9 +5,17 @@ import { Avatar, AvatarFallback } from '@radix-ui/react-avatar';
 import { LogOut } from 'lucide-react';
 
 export function Navbar() {
-  const { user, logout, role  } = useAuth();
+  const { user, logout, role } = useAuth();
   
   const homeUrl = role ? `/${role}` : '/';
+
+  const getInitials = (name: string) => {
+    return name
+      .split(' ')
+      .map(word => word[0])
+      .join('')
+      .toUpperCase();
+  };
 
   return (
     <nav className="border-b bg-background">
@@ -19,20 +27,19 @@ export function Navbar() {
         </div>
 
         <div className="ml-auto flex items-center space-x-4">
-          <div className="flex items-center space-x-4">
-            <Avatar className="h-8 w-8">
-              <AvatarFallback className="bg-primary/10">
-                {user?.fullName.charAt(0)}
-              </AvatarFallback>
-            </Avatar>
-            <div>
-              <p className="text-sm font-medium">{user?.fullName}</p>
-              <p className="text-xs text-muted-foreground">{user?.email}</p>
+          {user && (
+            <div className="flex items-center space-x-4">
+              <span className="text-sm font-medium">{user.fullName}</span>
+              <Avatar className="h-8 w-8">
+                <AvatarFallback className="bg-primary/10">
+                  {getInitials(user.fullName)}
+                </AvatarFallback>
+              </Avatar>
+              <Button variant="ghost" size="icon" onClick={logout}>
+                <LogOut className="h-4 w-4" />
+              </Button>
             </div>
-          </div>
-          <Button variant="ghost" size="icon" onClick={logout}>
-            <LogOut className="h-5 w-5" />
-          </Button>
+          )}
         </div>
       </div>
     </nav>

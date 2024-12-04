@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Ticket } from '../../types/ticket';
+import { Ticket } from '../../types/tickets/ticket';
 import { TicketDataGrid } from './components/TicketDataGrid';
 import { TicketDetail } from './components/TicketDetail';
 import { StaffMetrics } from './components/StaffMetrics';

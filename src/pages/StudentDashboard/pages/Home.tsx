@@ -1,18 +1,18 @@
-import { useState } from 'react';
-import { Ticket, TicketStatus } from '../../types/tickets/ticket';
-import { DashboardCard } from '../../components/dashboard/DashboardCard';
-import { TicketList } from '../../components/tickets/TicketList';
+import { Ticket, TicketStatus } from '../../../types/tickets/ticket';
+import { DashboardCard } from '../../../components/dashboard/DashboardCard';
+import { TicketList } from '../components/Home/TicketList';
+import { useTicketContext } from '../../../contexts/TicketContext';
 import { TicketIcon, ClockIcon, CheckCircleIcon } from 'lucide-react';
 
-export default function StudentDashboard() {
-  const [tickets] = useState<Ticket[]>([]); // Will be replaced with actual data
+export default function StudentHome() {
+  const { tickets } = useTicketContext();
 
   const pendingTickets = tickets.filter(
-    ticket => ticket.status === TicketStatus.PENDING
+    (ticket: Ticket) => ticket.status === TicketStatus.PENDING
   ).length;
 
   const resolvedTickets = tickets.filter(
-    ticket => ticket.status === TicketStatus.RESOLVED
+    (ticket: Ticket) => ticket.status === TicketStatus.RESOLVED
   ).length;
 
   return (
@@ -41,7 +41,7 @@ export default function StudentDashboard() {
         <h2 className="text-xl font-semibold">Yêu cầu gần đây</h2>
         <TicketList
           tickets={tickets}
-          onTicketClick={(ticket) => {
+          onTicketClick={(ticket: Ticket) => {
             console.log('Clicked ticket:', ticket);
           }}
         />

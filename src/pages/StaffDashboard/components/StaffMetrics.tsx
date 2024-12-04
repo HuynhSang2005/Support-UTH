@@ -1,5 +1,5 @@
 import { DashboardCard } from '../../../components/dashboard/DashboardCard';
-import { Ticket, TicketStatus } from '../../../types/ticket';
+import { Ticket, TicketStatus } from '../../../types/tickets/ticket';
 import {
   BarChart,
   Bar,

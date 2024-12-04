@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Ticket, TicketStatus, TicketComment } from '../../../types/ticket';
+import { Ticket, TicketStatus, TicketComment } from '../../../types/tickets/ticket';
 import { Button } from '../../../components/ui/button';
 import { Textarea } from '../../../components/ui/textarea';
 import { TicketStatusBadge } from '../../../components/tickets/TicketStatusBadge';

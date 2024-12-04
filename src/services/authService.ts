@@ -1,6 +1,7 @@
 import { RegisterFormData, PasswordResetFormData, AuthApiResponse } from '../types/auth';
 import { LoginCredentials, AuthResponse, User, UserRole, UserWithPassword } from '../types/user';
 import { mockUsers } from '../data/mockUsers';
+import { setAuthToken, getAuthToken, setSessionUser, getSessionUser } from '../lib/auth';
 export { getCurrentUser } from './auth/user';
 export { setAuthCookie, removeAuthCookie } from './auth/cookies';
 
@@ -51,6 +52,9 @@ export async function loginUser(credentials: LoginCredentials): Promise<AuthResp
   const { password, ...userWithoutPassword } = user;
   const token = createToken(userWithoutPassword);
 
+  setAuthToken(token);
+  setSessionUser(userWithoutPassword);
+
   return {
     token,
     user: userWithoutPassword
@@ -97,8 +101,8 @@ export async function registerUser(data: RegisterFormData): Promise<AuthApiRespo
 export async function resetPassword(data: PasswordResetFormData): Promise<AuthApiResponse> {
   await new Promise(resolve => setTimeout(resolve, SIMULATED_DELAY));
 
-  const userIndex = registeredUsers.findIndex(u => 
-    u.email === data.email && 
+  const userIndex = registeredUsers.findIndex(u =>
+    u.email === data.email &&
     u.studentId === data.studentId
   );
 

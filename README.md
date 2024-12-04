@@ -10,13 +10,39 @@ Tài liệu này cung cấp một cái nhìn tổng quan về frontend của H�
 - **TypeScript**: Superset của JavaScript, thêm các kiểu dữ liệu.
 - **Vite**: Công cụ build nhanh cho phát triển.
 - **React Hook Form**: Thư viện quản lý trạng thái form.
+- **React Auth Kit**: Thư viện quản lý xác thực người dùng cho React.
 - **Zod**: Thư viện xác thực schema đầu tiên cho TypeScript.
 - **Tailwind CSS**: Framework CSS theo hướng utility-first.
-- **Radix UI**: Các component không có style nhưng có tính truy cập cao.
+- **Shadcn Ui**: Bộ component UI được xây dựng trên Radix UI với các style sẵn có.
 
 ## Cấu trúc dự án
 
-src/ ├── components/ │ ├── ui/ │ │ ├── button.tsx │ │ ├── input.tsx │ │ ├── label.tsx │ │ └── ... ├── data/ │ └── mockUsers.ts ├── hooks/ │ └── useAuth.ts ├── pages/ │ ├── Login.tsx │ ├── RegisterForm.tsx │ └── ... ├── services/ │ └── authService.ts ├── types/ │ ├── auth.ts │ └── user.ts ├── lib/ │ └── validation.ts └── styles/ └── globals.css
+```plaintext
+src/
+├── components/
+│   ├── ui/
+│   │   ├── button.tsx
+│   │   ├── input.tsx
+│   │   ├── label.tsx
+│   │   └── ...
+├── data/
+│   └── mockUsers.ts
+├── hooks/
+│   └── useAuth.ts
+├── pages/
+│   ├── Login.tsx
+│   ├── RegisterForm.tsx
+│   └── ...
+├── services/
+│   └── authService.ts
+├── types/
+│   ├── auth.ts
+│   └── user.ts
+├── lib/
+│   └── validation.ts
+└── styles/
+    └── globals.css
+```
 
 
 ## Các thành phần chính
@@ -90,9 +116,9 @@ export const registerSchema = z.object({
 ## Cài đặt và sử dụng
 
 1. **Cài đặt các phụ thuộc**
-   ```sh
-   npm install
-   ```
+```sh
+npm install
+```
 2. **Cài đặt các phụ thuộc**
   ```sh
   npm run dev

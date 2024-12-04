@@ -1,7 +1,11 @@
-// AuthContext.tsx
 import { createContext, useContext, PropsWithChildren, useState, useCallback, useEffect } from 'react';
 import { User } from '../../types/user';
-import { setAuthCookie, removeAuthCookie, getCurrentUser } from '../../lib/auth';
+import { 
+  setAuthToken as setAuthCookie,
+  removeAuthToken as removeAuthCookie,
+  getCurrentUser,
+  setSessionUser
+} from '../../lib/auth';
 
 interface AuthContextType {
   user: User | null;
@@ -13,18 +17,11 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: PropsWithChildren) {
-  const [user, setUser] = useState<User | null>(null);
-
-  // Initialize user from cookie
-  useEffect(() => {
-    const currentUser = getCurrentUser();
-    if (currentUser) {
-      setUser(currentUser);
-    }
-  }, []);
+  const [user, setUser] = useState<User | null>(getCurrentUser());
 
   const login = useCallback((token: string, userData: User) => {
     setAuthCookie(token);
+    setSessionUser(userData);
     setUser(userData);
   }, []);
 
