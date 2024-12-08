@@ -1,3 +1,11 @@
 spring:
   application:
     name: UTH Support Backend
+
+app:
+  security:
+    jwt:
+      expiration-seconds: 3600
+      issuer: UTH Support Api
+      public-key: classpath:app.pub
+      private-key: classpath:app.key
