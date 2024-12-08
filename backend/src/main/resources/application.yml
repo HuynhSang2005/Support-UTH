@@ -7,5 +7,5 @@ app:
     jwt:
       expiration-seconds: 3600
       issuer: UTH Support Api
-      public-key: classpath:app.pub
-      private-key: classpath:app.key
+      public-key: classpath:keys/public.pem
+      private-key: classpath:keys/private.pem
