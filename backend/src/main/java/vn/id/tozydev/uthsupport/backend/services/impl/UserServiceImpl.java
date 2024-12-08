@@ -13,8 +13,8 @@ import vn.id.tozydev.uthsupport.backend.services.UserService;
 @AllArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
-  private UserMapper userMapper;
-  private UserRepository userRepository;
+  private final UserMapper userMapper;
+  private final UserRepository userRepository;
 
   @Override
   public Iterable<UserResponse> findAll() {
