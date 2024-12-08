@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import vn.id.tozydev.uthsupport.backend.models.enums.TicketStatus;
 
@@ -21,4 +23,14 @@ public class Ticket extends BaseEntity {
 
   @Column(nullable = false)
   private TicketStatus status = TicketStatus.PENDING;
+
+  @CreatedBy
+  @ManyToOne(fetch = FetchType.LAZY)
+  @ToString.Exclude
+  private User createdBy;
+
+  @LastModifiedBy
+  @ManyToOne(fetch = FetchType.LAZY)
+  @ToString.Exclude
+  private User updatedBy;
 }
