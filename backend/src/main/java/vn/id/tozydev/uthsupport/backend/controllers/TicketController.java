@@ -11,7 +11,7 @@ import vn.id.tozydev.uthsupport.backend.models.dtos.ticket.UpdateTicketStatusReq
 import vn.id.tozydev.uthsupport.backend.services.TicketService;
 
 @RestController
-@RequestMapping("/api/v1/tickets")
+@RequestMapping(ApiPaths.TICKETS)
 @AllArgsConstructor
 public class TicketController extends BaseController {
   private final TicketService ticketService;
@@ -21,7 +21,7 @@ public class TicketController extends BaseController {
     return ok(ticketService.findAll());
   }
 
-  @GetMapping("{ticketId}")
+  @GetMapping(ApiPaths.TICKET_ID_PARAM)
   public ResponseEntity<TicketResponse> findOne(@PathVariable Long ticketId) {
     return of(ticketService.findOne(ticketId));
   }
@@ -31,25 +31,25 @@ public class TicketController extends BaseController {
       @RequestBody CreateTicketRequest request, UriComponentsBuilder ucb) {
     var response = ticketService.create(request);
     var location =
-        ucb.path("/api/v1/tickets/{ticketId}")
-            .buildAndExpand("{ticketId}", response.getId())
+        ucb.pathSegment(ApiPaths.TICKETS, ApiPaths.TICKET_ID_PARAM)
+            .buildAndExpand(ApiPaths.TICKET_ID_PARAM, response.getId())
             .toUri();
     return created(location, response);
   }
 
-  @PatchMapping("{ticketId}")
+  @PatchMapping(ApiPaths.TICKET_ID_PARAM)
   public ResponseEntity<TicketResponse> update(
       @PathVariable Long ticketId, @RequestBody UpdateTicketRequest request) {
     return of(ticketService.update(ticketId, request));
   }
 
-  @PatchMapping("{ticketId}/status")
+  @PatchMapping(ApiPaths.TICKET_STATUS)
   public ResponseEntity<TicketResponse> updateStatus(
       @PathVariable Long ticketId, @RequestBody UpdateTicketStatusRequest request) {
     return of(ticketService.updateStatus(ticketId, request));
   }
 
-  @DeleteMapping("{ticketId}")
+  @DeleteMapping(ApiPaths.TICKET_ID_PARAM)
   public ResponseEntity<Void> delete(@PathVariable Long ticketId) {
     ticketService.delete(ticketId);
     return noContent();

@@ -30,7 +30,7 @@ public class UserController extends BaseController {
       @RequestBody CreateUserRequest request, UriComponentsBuilder ucb) {
     var response = userService.create(request);
     var location =
-        ucb.pathSegment(ApiPaths.PREFIX, ApiPaths.USERS, ApiPaths.USERNAME_PARAM)
+        ucb.pathSegment(ApiPaths.USERS, ApiPaths.USERNAME_PARAM)
             .buildAndExpand(ApiPaths.USERNAME_PARAM, response.getUsername())
             .toUri();
     return created(location, response);
