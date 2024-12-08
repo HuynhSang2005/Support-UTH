@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import vn.id.tozydev.uthsupport.backend.models.enums.TicketStatus;
 
 @Getter
 @Setter

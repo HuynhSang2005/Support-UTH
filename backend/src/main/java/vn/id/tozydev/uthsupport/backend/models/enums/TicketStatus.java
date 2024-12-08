@@ -1,4 +1,4 @@
-package vn.id.tozydev.uthsupport.backend.models.entities;
+package vn.id.tozydev.uthsupport.backend.models.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;

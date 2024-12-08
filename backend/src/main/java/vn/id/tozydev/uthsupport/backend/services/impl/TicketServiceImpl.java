@@ -9,7 +9,7 @@ import vn.id.tozydev.uthsupport.backend.models.dtos.ticket.CreateTicketRequest;
 import vn.id.tozydev.uthsupport.backend.models.dtos.ticket.TicketResponse;
 import vn.id.tozydev.uthsupport.backend.models.dtos.ticket.UpdateTicketRequest;
 import vn.id.tozydev.uthsupport.backend.models.dtos.ticket.UpdateTicketStatusRequest;
-import vn.id.tozydev.uthsupport.backend.models.entities.TicketStatus;
+import vn.id.tozydev.uthsupport.backend.models.enums.TicketStatus;
 import vn.id.tozydev.uthsupport.backend.models.mappers.TicketMapper;
 import vn.id.tozydev.uthsupport.backend.repositories.TicketRepository;
 import vn.id.tozydev.uthsupport.backend.services.TicketService;
