@@ -15,7 +15,7 @@ abstract class BaseController {
     return ResponseEntity.of(bodyOpt);
   }
 
-  static <T> ResponseEntity<T> created(URI location, T body) {
+  static <T> ResponseEntity<T> created(T body, URI location) {
     return ResponseEntity.created(location).body(body);
   }
 

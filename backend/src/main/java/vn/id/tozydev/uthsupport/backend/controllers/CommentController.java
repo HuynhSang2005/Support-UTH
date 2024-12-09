@@ -39,6 +39,6 @@ public class CommentController extends BaseController {
         ucb.pathSegment(ApiPaths.COMMENTS, ApiPaths.COMMENT_ID_PARAM)
             .buildAndExpand(ApiPaths.COMMENT_ID_PARAM, response.getId())
             .toUri();
-    return created(location, response);
+    return created(response, location);
   }
 }

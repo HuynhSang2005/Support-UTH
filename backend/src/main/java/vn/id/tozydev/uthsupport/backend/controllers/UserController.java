@@ -33,7 +33,7 @@ public class UserController extends BaseController {
         ucb.pathSegment(ApiPaths.USERS, ApiPaths.USERNAME_PARAM)
             .buildAndExpand(ApiPaths.USERNAME_PARAM, response.getUsername())
             .toUri();
-    return created(location, response);
+    return created(response, location);
   }
 
   @PatchMapping(ApiPaths.USERNAME_PARAM)

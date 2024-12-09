@@ -35,7 +35,7 @@ public class CategoryController extends BaseController {
         ucb.pathSegment(ApiPaths.CATEGORIES, ApiPaths.CATEGORY_ID_PARAM)
             .buildAndExpand(ApiPaths.CATEGORY_ID_PARAM, response.getId())
             .toUri();
-    return created(location, response);
+    return created(response, location );
   }
 
   @PatchMapping(ApiPaths.CATEGORY_ID_PARAM)

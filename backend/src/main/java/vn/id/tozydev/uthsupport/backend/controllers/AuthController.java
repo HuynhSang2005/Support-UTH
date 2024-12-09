@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 import vn.id.tozydev.uthsupport.backend.models.dtos.auth.LoginForm;
 import vn.id.tozydev.uthsupport.backend.models.dtos.auth.RegisterForm;
 import vn.id.tozydev.uthsupport.backend.models.dtos.auth.TokenResponse;
@@ -20,14 +19,9 @@ public class AuthController extends BaseController {
   private final AuthService authService;
 
   @PostMapping(ApiPaths.REGISTER_ONLY)
-  public ResponseEntity<UserResponse> register(
-      @RequestBody RegisterForm form, UriComponentsBuilder ucb) {
+  public ResponseEntity<UserResponse> register(@RequestBody RegisterForm form) {
     var response = authService.register(form);
-    var location =
-        ucb.pathSegment(ApiPaths.USERS, ApiPaths.USERNAME_PARAM)
-            .buildAndExpand(ApiPaths.USERNAME_PARAM, response.getUsername())
-            .toUri();
-    return created(location, response);
+    return created(response);
   }
 
   @PostMapping(ApiPaths.LOGIN_ONLY)

@@ -34,7 +34,7 @@ public class TicketController extends BaseController {
         ucb.pathSegment(ApiPaths.TICKETS, ApiPaths.TICKET_ID_PARAM)
             .buildAndExpand(ApiPaths.TICKET_ID_PARAM, response.getId())
             .toUri();
-    return created(location, response);
+    return created(response, location);
   }
 
   @PatchMapping(ApiPaths.TICKET_ID_PARAM)
