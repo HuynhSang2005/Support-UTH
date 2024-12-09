@@ -1,17 +1,17 @@
 package vn.id.tozydev.uthsupport.backend.security;
 
 import java.time.Instant;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
+import vn.id.tozydev.uthsupport.backend.models.entities.User;
 
 @Service
 public class TokenService {
+  public static final String ROLE_CLAIM = "role";
+
   private final JwtEncoder jwtEncoder;
 
   @Value("${app.security.jwt.expiration-seconds}")
@@ -24,19 +24,15 @@ public class TokenService {
     this.jwtEncoder = jwtEncoder;
   }
 
-  public String create(UserDetails userDetails) {
+  public String create(User user) {
     var now = Instant.now();
-    var role =
-        userDetails.getAuthorities().stream()
-            .map(GrantedAuthority::getAuthority)
-            .collect(Collectors.joining(","));
     var claims =
         JwtClaimsSet.builder()
             .issuer(issuer)
             .issuedAt(now)
             .expiresAt(now.plusSeconds(expirationSeconds))
-            .subject(userDetails.getUsername())
-            .claim("role", role)
+            .subject(user.getUsername())
+            .claim(ROLE_CLAIM, user.getRole().name())
             .build();
 
     return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();

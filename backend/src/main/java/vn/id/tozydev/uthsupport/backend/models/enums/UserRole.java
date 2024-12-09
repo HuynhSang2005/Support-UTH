@@ -9,9 +9,10 @@ public enum UserRole implements GrantedAuthority {
   LECTURE,
   ADMIN;
 
+  public static final String AUTHORITY_PREFIX = "ROLE_";
   private final String authority;
 
   UserRole() {
-    this.authority = "ROLE_" + name();
+    this.authority = AUTHORITY_PREFIX + name();
   }
 }

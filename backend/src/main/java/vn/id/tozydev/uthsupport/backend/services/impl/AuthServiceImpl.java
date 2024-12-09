@@ -43,6 +43,6 @@ public class AuthServiceImpl implements AuthService {
       throw new InsufficientAuthenticationException("Unauthorized");
     }
 
-    return TokenResponse.builder().accessToken(tokenService.create(user.toUserDetails())).build();
+    return TokenResponse.builder().accessToken(tokenService.create(user)).build();
   }
 }

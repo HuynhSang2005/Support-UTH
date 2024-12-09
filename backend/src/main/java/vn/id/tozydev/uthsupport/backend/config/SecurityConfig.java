@@ -10,20 +10,24 @@ import java.security.interfaces.RSAPublicKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+import org.springframework.security.oauth2.jwt.*;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import vn.id.tozydev.uthsupport.backend.models.enums.UserRole;
+import vn.id.tozydev.uthsupport.backend.security.TokenService;
 
 @Configuration
+@EnableMethodSecurity
 public class SecurityConfig {
   @Value("${app.security.jwt.public-key}")
   private RSAPublicKey publicKey;
@@ -41,7 +45,9 @@ public class SecurityConfig {
                 header.frameOptions(
                     HeadersConfigurer.FrameOptionsConfig::sameOrigin)) // for H2 Console
         .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()));
+        .oauth2ResourceServer(
+            oauth ->
+                oauth.jwt(jwt -> jwt.jwtAuthenticationConverter(getJwtAuthenticationConverter())));
     http.authorizeHttpRequests(
         request ->
             request //
@@ -50,6 +56,15 @@ public class SecurityConfig {
                 .anyRequest()
                 .permitAll());
     return http.build();
+  }
+
+  private Converter<Jwt, AbstractAuthenticationToken> getJwtAuthenticationConverter() {
+    var authorityConverter = new JwtGrantedAuthoritiesConverter();
+    authorityConverter.setAuthorityPrefix(UserRole.AUTHORITY_PREFIX);
+    authorityConverter.setAuthoritiesClaimName(TokenService.ROLE_CLAIM);
+    var converter = new JwtAuthenticationConverter();
+    converter.setJwtGrantedAuthoritiesConverter(authorityConverter);
+    return converter;
   }
 
   @Bean

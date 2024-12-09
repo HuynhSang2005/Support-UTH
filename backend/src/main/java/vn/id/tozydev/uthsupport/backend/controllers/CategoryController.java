@@ -9,8 +9,10 @@ import vn.id.tozydev.uthsupport.backend.models.dtos.category.CategoryResponse;
 import vn.id.tozydev.uthsupport.backend.models.dtos.category.CreateCategoryRequest;
 import vn.id.tozydev.uthsupport.backend.models.dtos.category.UpdateCategoryRequest;
 import vn.id.tozydev.uthsupport.backend.models.dtos.user.UserResponse;
+import vn.id.tozydev.uthsupport.backend.security.annotations.AdminOnly;
 import vn.id.tozydev.uthsupport.backend.services.CategoryService;
 
+@AdminOnly
 @RestController
 @RequestMapping(ApiPaths.CATEGORIES)
 @AllArgsConstructor
@@ -35,7 +37,7 @@ public class CategoryController extends BaseController {
         ucb.pathSegment(ApiPaths.CATEGORIES, ApiPaths.CATEGORY_ID_PARAM)
             .buildAndExpand(ApiPaths.CATEGORY_ID_PARAM, response.getId())
             .toUri();
-    return created(response, location );
+    return created(response, location);
   }
 
   @PatchMapping(ApiPaths.CATEGORY_ID_PARAM)
