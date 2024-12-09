@@ -5,12 +5,15 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import vn.id.tozydev.uthsupport.backend.exceptions.CategoryNotFoundException;
 import vn.id.tozydev.uthsupport.backend.models.dtos.ticket.CreateTicketRequest;
 import vn.id.tozydev.uthsupport.backend.models.dtos.ticket.TicketResponse;
 import vn.id.tozydev.uthsupport.backend.models.dtos.ticket.UpdateTicketRequest;
 import vn.id.tozydev.uthsupport.backend.models.dtos.ticket.UpdateTicketStatusRequest;
+import vn.id.tozydev.uthsupport.backend.models.entities.Category;
 import vn.id.tozydev.uthsupport.backend.models.enums.TicketStatus;
 import vn.id.tozydev.uthsupport.backend.models.mappers.TicketMapper;
+import vn.id.tozydev.uthsupport.backend.repositories.CategoryRepository;
 import vn.id.tozydev.uthsupport.backend.repositories.TicketRepository;
 import vn.id.tozydev.uthsupport.backend.services.TicketService;
 
@@ -19,6 +22,7 @@ import vn.id.tozydev.uthsupport.backend.services.TicketService;
 public class TicketServiceImpl implements TicketService {
   private final TicketMapper ticketMapper;
   private final TicketRepository ticketRepository;
+  private final CategoryRepository categoryRepository;
 
   @Override
   public Iterable<TicketResponse> findAll() {
@@ -32,7 +36,14 @@ public class TicketServiceImpl implements TicketService {
 
   @Override
   public TicketResponse create(CreateTicketRequest request) {
+    var category = categoryRepository.findById(request.getCategoryId());
+    if (category.isEmpty()) {
+      throw new CategoryNotFoundException(
+          "Cannot find category with id '" + request.getCategoryId() + "'");
+    }
+
     var ticket = ticketMapper.toEntity(request);
+    ticket.setCategory(category.get());
     ticketRepository.save(ticket);
     return ticketMapper.toResponse(ticket);
   }
@@ -43,8 +54,19 @@ public class TicketServiceImpl implements TicketService {
     if (ticketOpt.isEmpty()) {
       return Optional.empty();
     }
+
+    Optional<Category> category = Optional.empty();
+    if (request.getCategoryId() != null) {
+      category = categoryRepository.findById(request.getCategoryId());
+      if (category.isEmpty()) {
+        throw new CategoryNotFoundException(
+            "Cannot find category with id '" + request.getCategoryId() + "'");
+      }
+    }
+
     var ticket = ticketOpt.get();
     ticketMapper.update(request, ticket);
+    category.ifPresent(ticket::setCategory);
     ticketRepository.save(ticket);
     return Optional.of(ticketMapper.toResponse(ticket));
   }
