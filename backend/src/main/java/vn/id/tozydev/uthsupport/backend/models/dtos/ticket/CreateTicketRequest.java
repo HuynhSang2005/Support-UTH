@@ -6,4 +6,5 @@ import lombok.Data;
 public class CreateTicketRequest {
   private String subject;
   private String description;
+  private Long categoryId;
 }

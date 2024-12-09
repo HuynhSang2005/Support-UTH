@@ -27,4 +27,6 @@ public class Ticket extends BaseEntity {
   @CreatedBy @ManyToOne private User createdBy;
 
   @LastModifiedBy @ManyToOne private User updatedBy;
+
+  @ManyToOne private Category category;
 }
