@@ -17,5 +17,6 @@ final class ApiPaths {
   static final String TICKET_STATUS = TICKET_ID_PARAM + "/status";
   static final String AUTH = PREFIX + "auth";
   static final String CATEGORIES = PREFIX + "categories";
+  static final String CATEGORY_ASSIGNEES = CATEGORY_ID_PARAM + "/assignees";
   static final String COMMENTS = PREFIX + COMMENTS_ONLY;
 }

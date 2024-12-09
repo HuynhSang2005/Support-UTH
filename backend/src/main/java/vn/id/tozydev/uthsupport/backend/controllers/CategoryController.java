@@ -4,9 +4,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+import vn.id.tozydev.uthsupport.backend.models.dtos.category.AssigneesRequest;
 import vn.id.tozydev.uthsupport.backend.models.dtos.category.CategoryResponse;
 import vn.id.tozydev.uthsupport.backend.models.dtos.category.CreateCategoryRequest;
 import vn.id.tozydev.uthsupport.backend.models.dtos.category.UpdateCategoryRequest;
+import vn.id.tozydev.uthsupport.backend.models.dtos.user.UserResponse;
 import vn.id.tozydev.uthsupport.backend.services.CategoryService;
 
 @RestController
@@ -46,5 +48,22 @@ public class CategoryController extends BaseController {
   public ResponseEntity<Void> delete(@PathVariable Long categoryId) {
     categoryService.delete(categoryId);
     return noContent();
+  }
+
+  @GetMapping(ApiPaths.CATEGORY_ASSIGNEES)
+  public ResponseEntity<Iterable<UserResponse>> findAllAssignees(@PathVariable Long categoryId) {
+    return ok(categoryService.findAllAssignees(categoryId));
+  }
+
+  @PostMapping(ApiPaths.CATEGORY_ASSIGNEES)
+  public ResponseEntity<Iterable<UserResponse>> addAssignees(
+      @PathVariable Long categoryId, @RequestBody AssigneesRequest request) {
+    return created(categoryService.addAssignees(categoryId, request));
+  }
+
+  @DeleteMapping(ApiPaths.CATEGORY_ASSIGNEES)
+  public ResponseEntity<Iterable<UserResponse>> removeAssignees(
+      @PathVariable Long categoryId, @RequestBody AssigneesRequest request) {
+    return ok(categoryService.removeAssignees(categoryId, request));
   }
 }

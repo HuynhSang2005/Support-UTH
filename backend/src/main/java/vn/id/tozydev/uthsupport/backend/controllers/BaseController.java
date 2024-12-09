@@ -2,6 +2,7 @@ package vn.id.tozydev.uthsupport.backend.controllers;
 
 import java.net.URI;
 import java.util.Optional;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 abstract class BaseController {
@@ -18,8 +19,8 @@ abstract class BaseController {
     return ResponseEntity.created(location).body(body);
   }
 
-  static <T> ResponseEntity<T> notFound() {
-    return ResponseEntity.notFound().build();
+  static <T> ResponseEntity<T> created(T body) {
+    return ResponseEntity.status(HttpStatus.CREATED).body(body);
   }
 
   static <T> ResponseEntity<T> noContent() {
