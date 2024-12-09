@@ -19,8 +19,6 @@ public class Ticket extends BaseEntity {
   @Column(nullable = false)
   private String subject;
 
-  private String description;
-
   @Column(nullable = false)
   private TicketStatus status = TicketStatus.PENDING;
 

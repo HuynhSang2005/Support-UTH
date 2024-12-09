@@ -10,7 +10,6 @@ import vn.id.tozydev.uthsupport.backend.models.enums.TicketStatus;
 public class TicketResponse {
   private Long id;
   private String subject;
-  private String description;
   private TicketStatus status;
   private CategoryResponse category;
   private UserResponse createdBy;

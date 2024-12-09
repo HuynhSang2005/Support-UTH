@@ -11,9 +11,12 @@ import vn.id.tozydev.uthsupport.backend.models.dtos.ticket.TicketResponse;
 import vn.id.tozydev.uthsupport.backend.models.dtos.ticket.UpdateTicketRequest;
 import vn.id.tozydev.uthsupport.backend.models.dtos.ticket.UpdateTicketStatusRequest;
 import vn.id.tozydev.uthsupport.backend.models.entities.Category;
+import vn.id.tozydev.uthsupport.backend.models.entities.Comment;
+import vn.id.tozydev.uthsupport.backend.models.entities.Ticket;
 import vn.id.tozydev.uthsupport.backend.models.enums.TicketStatus;
 import vn.id.tozydev.uthsupport.backend.models.mappers.TicketMapper;
 import vn.id.tozydev.uthsupport.backend.repositories.CategoryRepository;
+import vn.id.tozydev.uthsupport.backend.repositories.CommentRepository;
 import vn.id.tozydev.uthsupport.backend.repositories.TicketRepository;
 import vn.id.tozydev.uthsupport.backend.services.TicketService;
 
@@ -23,6 +26,7 @@ public class TicketServiceImpl implements TicketService {
   private final TicketMapper ticketMapper;
   private final TicketRepository ticketRepository;
   private final CategoryRepository categoryRepository;
+  private final CommentRepository commentRepository;
 
   @Override
   public Iterable<TicketResponse> findAll() {
@@ -45,7 +49,15 @@ public class TicketServiceImpl implements TicketService {
     var ticket = ticketMapper.toEntity(request);
     ticket.setCategory(category.get());
     ticketRepository.save(ticket);
+    createComment(ticket, request.getComment());
     return ticketMapper.toResponse(ticket);
+  }
+
+  private void createComment(Ticket ticket, String content) {
+    var comment = new Comment();
+    comment.setContent(content);
+    comment.setTicket(ticket);
+    commentRepository.save(comment);
   }
 
   @Override
