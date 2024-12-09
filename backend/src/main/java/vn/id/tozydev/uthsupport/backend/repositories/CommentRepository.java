@@ -6,4 +6,6 @@ import vn.id.tozydev.uthsupport.backend.models.entities.Ticket;
 
 public interface CommentRepository extends CrudRepository<Comment, Long> {
   Iterable<Comment> findAllByTicket(Ticket ticket);
+
+  long countCommentByTicket(Ticket ticket);
 }

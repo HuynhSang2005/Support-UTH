@@ -16,4 +16,5 @@ public class TicketResponse {
   private Instant createdAt;
   private UserResponse updatedBy;
   private Instant updatedAt;
+  private long comments;
 }
