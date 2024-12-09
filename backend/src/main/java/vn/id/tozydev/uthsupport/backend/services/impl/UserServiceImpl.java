@@ -2,6 +2,7 @@ package vn.id.tozydev.uthsupport.backend.services.impl;
 
 import java.util.Optional;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import vn.id.tozydev.uthsupport.backend.models.dtos.user.CreateUserRequest;
 import vn.id.tozydev.uthsupport.backend.models.dtos.user.UpdateUserRequest;
@@ -15,6 +16,7 @@ import vn.id.tozydev.uthsupport.backend.services.UserService;
 public class UserServiceImpl implements UserService {
   private final UserMapper userMapper;
   private final UserRepository userRepository;
+  private final PasswordEncoder passwordEncoder;
 
   @Override
   public Iterable<UserResponse> findAll() {
@@ -29,6 +31,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public UserResponse create(CreateUserRequest request) {
     var user = userMapper.toEntity(request);
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
     userRepository.save(user);
     return userMapper.toResponse(user);
   }

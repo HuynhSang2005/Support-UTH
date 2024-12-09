@@ -7,4 +7,7 @@ final class ApiPaths {
   static final String TICKETS = PREFIX + "tickets";
   static final String TICKET_ID_PARAM = "{ticketId}";
   static final String TICKET_STATUS = TICKET_ID_PARAM + "/status";
+  static final String AUTH = PREFIX + "auth";
+  static final String REGISTER = "register";
+  static final String LOGIN = "login";
 }
