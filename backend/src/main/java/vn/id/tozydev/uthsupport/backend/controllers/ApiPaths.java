@@ -10,4 +10,6 @@ final class ApiPaths {
   static final String AUTH = PREFIX + "auth";
   static final String REGISTER = "register";
   static final String LOGIN = "login";
+  static final String CATEGORIES = "categories";
+  static final String CATEGORY_ID_PARAM = "{categoryId}";
 }
