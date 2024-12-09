@@ -8,7 +8,8 @@ import vn.id.tozydev.uthsupport.backend.models.entities.Ticket;
 
 @Mapper(
     componentModel = MappingConstants.ComponentModel.SPRING,
-    nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
+    uses = {UserMapper.class})
 public interface TicketMapper {
   TicketResponse toResponse(Ticket entity);
 

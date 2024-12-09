@@ -2,6 +2,7 @@ package vn.id.tozydev.uthsupport.backend.models.dtos.ticket;
 
 import java.time.Instant;
 import lombok.Data;
+import vn.id.tozydev.uthsupport.backend.models.dtos.user.UserResponse;
 import vn.id.tozydev.uthsupport.backend.models.enums.TicketStatus;
 
 @Data
@@ -10,6 +11,8 @@ public class TicketResponse {
   private String subject;
   private String description;
   private TicketStatus status;
+  private UserResponse createdBy;
   private Instant createdAt;
+  private UserResponse updatedBy;
   private Instant updatedAt;
 }
