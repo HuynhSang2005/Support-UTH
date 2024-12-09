@@ -24,13 +24,7 @@ public class Ticket extends BaseEntity {
   @Column(nullable = false)
   private TicketStatus status = TicketStatus.PENDING;
 
-  @CreatedBy //
-  @ManyToOne //
-  @ToString.Exclude //
-  private User createdBy;
+  @CreatedBy @ManyToOne private User createdBy;
 
-  @LastModifiedBy //
-  @ManyToOne //
-  @ToString.Exclude //
-  private User updatedBy;
+  @LastModifiedBy @ManyToOne private User updatedBy;
 }
