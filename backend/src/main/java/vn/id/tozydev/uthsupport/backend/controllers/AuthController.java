@@ -19,7 +19,7 @@ import vn.id.tozydev.uthsupport.backend.services.AuthService;
 public class AuthController extends BaseController {
   private final AuthService authService;
 
-  @PostMapping(ApiPaths.REGISTER)
+  @PostMapping(ApiPaths.REGISTER_ONLY)
   public ResponseEntity<UserResponse> register(
       @RequestBody RegisterForm form, UriComponentsBuilder ucb) {
     var response = authService.register(form);
@@ -30,7 +30,7 @@ public class AuthController extends BaseController {
     return created(location, response);
   }
 
-  @PostMapping(ApiPaths.LOGIN)
+  @PostMapping(ApiPaths.LOGIN_ONLY)
   public ResponseEntity<TokenResponse> login(@RequestBody LoginForm form) {
     return ok(authService.login(form));
   }
