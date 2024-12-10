@@ -87,7 +87,14 @@ public class TicketServiceImpl implements TicketService {
       String username, Long id, UpdateTicketRequest request) {
     var ticketOpt = ticketRepository.findById(id);
     return ticketOpt
-        .filter(ticket -> ticket.isOwned(username) || ticket.isAssigned(username))
+        .filter(
+            ticket -> {
+              if (ticket.isOwned(username)) {
+                request.setCategoryId(null);
+                return true;
+              }
+              return ticket.isAssigned(username);
+            })
         .flatMap(ticket -> update(request, ticket));
   }
 

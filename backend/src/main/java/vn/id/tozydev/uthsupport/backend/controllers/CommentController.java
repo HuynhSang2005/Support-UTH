@@ -1,5 +1,6 @@
 package vn.id.tozydev.uthsupport.backend.controllers;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -28,7 +29,7 @@ public class CommentController extends BaseController {
     if (UserRole.ADMIN.hasAccess(authentication)) {
       return of(commentService.findOne(commentId));
     }
-    
+
     return of(commentService.findOneWithUser(authentication.getName(), commentId));
   }
 
@@ -41,7 +42,7 @@ public class CommentController extends BaseController {
   @PostMapping(ApiPaths.TICKET_COMMENT)
   public ResponseEntity<CommentResponse> create(
       @PathVariable Long ticketId,
-      @RequestBody CreateCommentRequest request,
+      @Valid @RequestBody CreateCommentRequest request,
       UriComponentsBuilder ucb,
       Authentication authentication) {
     CommentResponse response;

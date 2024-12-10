@@ -2,6 +2,10 @@ spring:
   application:
     name: UTH Support Backend
 
+  mvc:
+    problemdetails:
+      enabled: true
+
 app:
   security:
     jwt:

@@ -26,4 +26,8 @@ abstract class BaseController {
   static <T> ResponseEntity<T> noContent() {
     return ResponseEntity.noContent().build();
   }
+
+  static <T> ResponseEntity<T> notModified(T body) {
+    return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body(body);
+  }
 }

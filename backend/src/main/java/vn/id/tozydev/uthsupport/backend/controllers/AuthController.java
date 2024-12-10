@@ -1,5 +1,6 @@
 package vn.id.tozydev.uthsupport.backend.controllers;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,13 +20,13 @@ public class AuthController extends BaseController {
   private final AuthService authService;
 
   @PostMapping(ApiPaths.REGISTER_ONLY)
-  public ResponseEntity<UserResponse> register(@RequestBody RegisterForm form) {
+  public ResponseEntity<UserResponse> register(@Valid @RequestBody RegisterForm form) {
     var response = authService.register(form);
     return created(response);
   }
 
   @PostMapping(ApiPaths.LOGIN_ONLY)
-  public ResponseEntity<TokenResponse> login(@RequestBody LoginForm form) {
+  public ResponseEntity<TokenResponse> login(@Valid @RequestBody LoginForm form) {
     return ok(authService.login(form));
   }
 }

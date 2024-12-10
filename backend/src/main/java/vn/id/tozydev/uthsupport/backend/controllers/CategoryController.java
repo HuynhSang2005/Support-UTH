@@ -1,5 +1,6 @@
 package vn.id.tozydev.uthsupport.backend.controllers;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,7 @@ public class CategoryController extends BaseController {
   @AdminOnly
   @PostMapping
   public ResponseEntity<CategoryResponse> create(
-      @RequestBody CreateCategoryRequest request, UriComponentsBuilder ucb) {
+      @Valid @RequestBody CreateCategoryRequest request, UriComponentsBuilder ucb) {
     var response = categoryService.create(request);
     var location =
         ucb.pathSegment(ApiPaths.CATEGORIES, ApiPaths.CATEGORY_ID_PARAM)
@@ -43,7 +44,7 @@ public class CategoryController extends BaseController {
   @AdminOnly
   @PatchMapping(ApiPaths.CATEGORY_ID_PARAM)
   public ResponseEntity<CategoryResponse> update(
-      @PathVariable Long categoryId, @RequestBody UpdateCategoryRequest request) {
+      @PathVariable Long categoryId, @Valid @RequestBody UpdateCategoryRequest request) {
     return of(categoryService.update(categoryId, request));
   }
 
@@ -64,6 +65,10 @@ public class CategoryController extends BaseController {
   @PostMapping(ApiPaths.CATEGORY_ASSIGNEES)
   public ResponseEntity<Iterable<UserResponse>> addAssignees(
       @PathVariable Long categoryId, @RequestBody AssigneesRequest request) {
+    if (request.getAssignees().isEmpty()) {
+      return notModified(categoryService.findAllAssignees(categoryId));
+    }
+
     return created(categoryService.addAssignees(categoryId, request));
   }
 
@@ -71,6 +76,10 @@ public class CategoryController extends BaseController {
   @DeleteMapping(ApiPaths.CATEGORY_ASSIGNEES)
   public ResponseEntity<Iterable<UserResponse>> removeAssignees(
       @PathVariable Long categoryId, @RequestBody AssigneesRequest request) {
+    if (request.getAssignees().isEmpty()) {
+      return notModified(categoryService.findAllAssignees(categoryId));
+    }
+
     return ok(categoryService.removeAssignees(categoryId, request));
   }
 }

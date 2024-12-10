@@ -1,5 +1,6 @@
 package vn.id.tozydev.uthsupport.backend.controllers;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -41,7 +42,7 @@ public class TicketController extends BaseController {
 
   @PostMapping
   public ResponseEntity<TicketResponse> create(
-      @RequestBody CreateTicketRequest request, UriComponentsBuilder ucb) {
+      @Valid @RequestBody CreateTicketRequest request, UriComponentsBuilder ucb) {
     var response = ticketService.create(request);
     var location =
         ucb.pathSegment(ApiPaths.TICKETS, ApiPaths.TICKET_ID_PARAM)
@@ -53,7 +54,7 @@ public class TicketController extends BaseController {
   @PatchMapping(ApiPaths.TICKET_ID_PARAM)
   public ResponseEntity<TicketResponse> update(
       @PathVariable Long ticketId,
-      @RequestBody UpdateTicketRequest request,
+      @Valid @RequestBody UpdateTicketRequest request,
       Authentication authentication) {
     if (UserRole.ADMIN.hasAccess(authentication)) {
       return of(ticketService.update(ticketId, request));
@@ -65,7 +66,7 @@ public class TicketController extends BaseController {
   @PatchMapping(ApiPaths.TICKET_STATUS)
   public ResponseEntity<TicketResponse> updateStatus(
       @PathVariable Long ticketId,
-      @RequestBody UpdateTicketStatusRequest request,
+      @Valid @RequestBody UpdateTicketStatusRequest request,
       Authentication authentication) {
     if (UserRole.ADMIN.hasAccess(authentication)) {
       return of(ticketService.updateStatus(ticketId, request));

@@ -1,5 +1,6 @@
 package vn.id.tozydev.uthsupport.backend.controllers;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class UserController extends BaseController {
 
   @PostMapping
   public ResponseEntity<UserResponse> create(
-      @RequestBody CreateUserRequest request, UriComponentsBuilder ucb) {
+      @Valid @RequestBody CreateUserRequest request, UriComponentsBuilder ucb) {
     var response = userService.create(request);
     var location =
         ucb.pathSegment(ApiPaths.USERS, ApiPaths.USERNAME_PARAM)

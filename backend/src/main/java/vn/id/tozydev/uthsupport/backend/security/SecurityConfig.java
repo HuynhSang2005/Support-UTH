@@ -54,13 +54,13 @@ public class SecurityConfig {
                 .requestMatchers(toH2Console())
                 .permitAll()
                 .requestMatchers(ApiPaths.AUTH + "/**")
-                .permitAll()
+                .anonymous()
                 .requestMatchers("/swagger-ui*/**")
                 .permitAll()
                 .requestMatchers("/v3/api-docs*/**")
                 .permitAll()
                 .anyRequest()
-                .authenticated());
+                .permitAll());
     return http.build();
   }
 
