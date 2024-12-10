@@ -55,7 +55,6 @@ public class CategoryController extends BaseController {
     return noContent();
   }
 
-  @AdminOnly
   @GetMapping(ApiPaths.CATEGORY_ASSIGNEES)
   public ResponseEntity<Iterable<UserResponse>> findAllAssignees(@PathVariable Long categoryId) {
     return ok(categoryService.findAllAssignees(categoryId));
