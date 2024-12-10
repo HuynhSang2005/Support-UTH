@@ -16,27 +16,18 @@ public class LoggedInUserController extends BaseController {
 
   @GetMapping
   public ResponseEntity<UserResponse> findCurrent(Authentication authentication) {
-    if (isNotAuthenticated(authentication)) {
-      return unauthorized();
-    }
     return of(userService.findOne(authentication.getName()));
   }
 
   @PatchMapping
   public ResponseEntity<UserResponse> updateCurrent(
       Authentication authentication, @RequestBody UpdateUserRequest request) {
-    if (isNotAuthenticated(authentication)) {
-      return unauthorized();
-    }
     request.setRole(null);
     return of(userService.update(authentication.getName(), request));
   }
 
   @DeleteMapping
   public ResponseEntity<Void> deleteCurrent(Authentication authentication) {
-    if (isNotAuthenticated(authentication)) {
-      return unauthorized();
-    }
     userService.delete(authentication.getName());
     return noContent();
   }

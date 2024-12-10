@@ -1,4 +1,4 @@
-package vn.id.tozydev.uthsupport.backend.config;
+package vn.id.tozydev.uthsupport.backend.security;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
@@ -23,8 +23,8 @@ import org.springframework.security.oauth2.jwt.*;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import vn.id.tozydev.uthsupport.backend.controllers.ApiPaths;
 import vn.id.tozydev.uthsupport.backend.models.enums.UserRole;
-import vn.id.tozydev.uthsupport.backend.security.TokenService;
 
 @Configuration
 @EnableMethodSecurity
@@ -53,8 +53,10 @@ public class SecurityConfig {
             request //
                 .requestMatchers(toH2Console())
                 .permitAll()
+                .requestMatchers(ApiPaths.AUTH + "/**")
+                .permitAll()
                 .anyRequest()
-                .permitAll());
+                .authenticated());
     return http.build();
   }
 

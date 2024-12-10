@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 
 abstract class BaseController {
   static <T> ResponseEntity<T> ok(T body) {
@@ -26,16 +25,5 @@ abstract class BaseController {
 
   static <T> ResponseEntity<T> noContent() {
     return ResponseEntity.noContent().build();
-  }
-
-  static <T> ResponseEntity<T> unauthorized() {
-    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-  }
-
-  static boolean isNotAuthenticated(Authentication authentication) {
-    return authentication == null
-        || !authentication.isAuthenticated()
-        || authentication.getName() == null
-        || authentication.getName().isBlank();
   }
 }
