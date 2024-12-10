@@ -22,7 +22,8 @@ public class TicketController extends BaseController {
 
   @GetMapping
   public ResponseEntity<Iterable<TicketResponse>> findAll(
-      @RequestParam boolean assigned, Authentication authentication) {
+      @RequestParam(required = false, defaultValue = "false") boolean assigned,
+      Authentication authentication) {
     if (UserRole.ADMIN.hasAccess(authentication)) {
       return ok(ticketService.findAll());
     }

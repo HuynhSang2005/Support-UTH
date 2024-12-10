@@ -60,7 +60,7 @@ public class SecurityConfig {
                 .requestMatchers("/v3/api-docs*/**")
                 .permitAll()
                 .anyRequest()
-                .permitAll());
+                .authenticated());
     return http.build();
   }
 
