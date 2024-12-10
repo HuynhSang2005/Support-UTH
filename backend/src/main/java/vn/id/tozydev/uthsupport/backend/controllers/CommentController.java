@@ -9,17 +9,16 @@ import vn.id.tozydev.uthsupport.backend.models.dtos.comment.CreateCommentRequest
 import vn.id.tozydev.uthsupport.backend.services.CommentService;
 
 @RestController
-@RequestMapping(ApiPaths.COMMENTS)
 @AllArgsConstructor
 public class CommentController extends BaseController {
   private final CommentService commentService;
 
-  @GetMapping
+  @GetMapping(ApiPaths.COMMENTS)
   public ResponseEntity<Iterable<CommentResponse>> findAll() {
     return ok(commentService.findAll(null));
   }
 
-  @GetMapping(ApiPaths.COMMENT_ID_PARAM)
+  @GetMapping(ApiPaths.COMMENTS + "/" + ApiPaths.COMMENT_ID_PARAM)
   public ResponseEntity<CommentResponse> findOne(@PathVariable Long commentId) {
     return of(commentService.findOne(commentId));
   }
