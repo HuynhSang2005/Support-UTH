@@ -8,5 +8,5 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize("hasRole(T(vn.id.tozydev.uthsupport.backend.models.enums.UserRole).STUDENT.name())")
+@PreAuthorize("hasRole(T(vn.id.tozydev.uthsupport.backend.models.enums.UserRole).ADMIN.name())")
 public @interface AdminOnly {}

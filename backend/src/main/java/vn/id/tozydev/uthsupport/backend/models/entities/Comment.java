@@ -21,4 +21,8 @@ public class Comment extends BaseEntity {
   @ManyToOne private Ticket ticket;
 
   @CreatedBy @ManyToOne private User createdBy;
+
+  public boolean isOwned(String username) {
+    return createdBy.getUsername().equals(username);
+  }
 }

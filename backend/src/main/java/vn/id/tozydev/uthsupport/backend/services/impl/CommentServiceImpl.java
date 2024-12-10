@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import vn.id.tozydev.uthsupport.backend.exceptions.TicketNotFoundException;
 import vn.id.tozydev.uthsupport.backend.models.dtos.comment.CommentResponse;
 import vn.id.tozydev.uthsupport.backend.models.dtos.comment.CreateCommentRequest;
 import vn.id.tozydev.uthsupport.backend.models.entities.Ticket;
@@ -22,14 +21,15 @@ public class CommentServiceImpl implements CommentService {
   private final TicketRepository ticketRepository;
 
   @Override
-  public Iterable<CommentResponse> findAll(Long ticketId) {
-    Optional<Ticket> ticket = Optional.empty();
-    if (ticketId != null) {
-      ticket = ticketRepository.findById(ticketId);
-      if (ticket.isEmpty()) {
-        throw new ResponseStatusException(
-            HttpStatus.NOT_FOUND, "Ticket with id '" + ticketId + "' not found!");
-      }
+  public Iterable<CommentResponse> findAll() {
+    return commentMapper.toResponses(commentRepository.findAll());
+  }
+
+  @Override
+  public Iterable<CommentResponse> findAllByTicketWithUser(String username, Long ticketId) {
+    Optional<Ticket> ticket = ticketRepository.findById(ticketId);
+    if (ticket.isEmpty() || !ticket.get().isOwned(username) || !ticket.get().isAssigned(username)) {
+      throw createTicketNotFoundStatus(ticketId);
     }
 
     return ticket
@@ -44,15 +44,48 @@ public class CommentServiceImpl implements CommentService {
   }
 
   @Override
+  public Optional<CommentResponse> findOneWithUser(String username, Long commentId) {
+    return commentRepository
+        .findById(commentId)
+        .filter(
+            comment ->
+                comment.isOwned(username)
+                    || comment.getTicket().isOwned(username)
+                    || comment.getTicket().isAssigned(username))
+        .map(commentMapper::toResponse);
+  }
+
+  @Override
   public CommentResponse create(Long ticketId, CreateCommentRequest request) {
     var ticket = ticketRepository.findById(ticketId);
     if (ticket.isEmpty()) {
-      throw new TicketNotFoundException("Ticket with id '" + ticketId + "' not found!");
+      throw createTicketNotFoundStatus(ticketId);
     }
 
+    return create(request, ticket.get());
+  }
+
+  @Override
+  public CommentResponse createWithUser(
+      String username, Long ticketId, CreateCommentRequest request) {
+    var ticketOpt = ticketRepository.findById(ticketId);
+    if (ticketOpt.isEmpty()
+        || !ticketOpt.get().isOwned(username)
+        || ticketOpt.get().isAssigned(username)) {
+      throw createTicketNotFoundStatus(ticketId);
+    }
+    return create(request, ticketOpt.get());
+  }
+
+  private CommentResponse create(CreateCommentRequest request, Ticket ticket) {
     var comment = commentMapper.toEntity(request);
-    comment.setTicket(ticket.get());
+    comment.setTicket(ticket);
     commentRepository.save(comment);
     return commentMapper.toResponse(comment);
+  }
+
+  private ResponseStatusException createTicketNotFoundStatus(Long ticketId) {
+    return new ResponseStatusException(
+        HttpStatus.NOT_FOUND, "Ticket with id '" + ticketId + "' not found!");
   }
 }

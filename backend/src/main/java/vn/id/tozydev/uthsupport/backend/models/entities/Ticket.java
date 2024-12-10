@@ -27,4 +27,13 @@ public class Ticket extends BaseEntity {
   @LastModifiedBy @ManyToOne private User updatedBy;
 
   @ManyToOne private Category category;
+
+  public boolean isOwned(String username) {
+    return createdBy.getUsername().equals(username);
+  }
+
+  public boolean isAssigned(String username) {
+    return category != null
+        && category.getAssignees().stream().anyMatch(user -> user.getUsername().equals(username));
+  }
 }

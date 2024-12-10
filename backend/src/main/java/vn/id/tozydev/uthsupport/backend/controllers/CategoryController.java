@@ -12,7 +12,6 @@ import vn.id.tozydev.uthsupport.backend.models.dtos.user.UserResponse;
 import vn.id.tozydev.uthsupport.backend.security.annotations.AdminOnly;
 import vn.id.tozydev.uthsupport.backend.services.CategoryService;
 
-@AdminOnly
 @RestController
 @RequestMapping(ApiPaths.CATEGORIES)
 @AllArgsConstructor
@@ -29,6 +28,7 @@ public class CategoryController extends BaseController {
     return of(categoryService.findOne(categoryId));
   }
 
+  @AdminOnly
   @PostMapping
   public ResponseEntity<CategoryResponse> create(
       @RequestBody CreateCategoryRequest request, UriComponentsBuilder ucb) {
@@ -40,29 +40,34 @@ public class CategoryController extends BaseController {
     return created(response, location);
   }
 
+  @AdminOnly
   @PatchMapping(ApiPaths.CATEGORY_ID_PARAM)
   public ResponseEntity<CategoryResponse> update(
       @PathVariable Long categoryId, @RequestBody UpdateCategoryRequest request) {
     return of(categoryService.update(categoryId, request));
   }
 
+  @AdminOnly
   @DeleteMapping(ApiPaths.CATEGORY_ID_PARAM)
   public ResponseEntity<Void> delete(@PathVariable Long categoryId) {
     categoryService.delete(categoryId);
     return noContent();
   }
 
+  @AdminOnly
   @GetMapping(ApiPaths.CATEGORY_ASSIGNEES)
   public ResponseEntity<Iterable<UserResponse>> findAllAssignees(@PathVariable Long categoryId) {
     return ok(categoryService.findAllAssignees(categoryId));
   }
 
+  @AdminOnly
   @PostMapping(ApiPaths.CATEGORY_ASSIGNEES)
   public ResponseEntity<Iterable<UserResponse>> addAssignees(
       @PathVariable Long categoryId, @RequestBody AssigneesRequest request) {
     return created(categoryService.addAssignees(categoryId, request));
   }
 
+  @AdminOnly
   @DeleteMapping(ApiPaths.CATEGORY_ASSIGNEES)
   public ResponseEntity<Iterable<UserResponse>> removeAssignees(
       @PathVariable Long categoryId, @RequestBody AssigneesRequest request) {

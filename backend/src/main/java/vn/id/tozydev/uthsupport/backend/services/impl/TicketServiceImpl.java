@@ -3,6 +3,7 @@ package vn.id.tozydev.uthsupport.backend.services.impl;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import vn.id.tozydev.uthsupport.backend.exceptions.CategoryNotFoundException;
@@ -34,8 +35,23 @@ public class TicketServiceImpl implements TicketService {
   }
 
   @Override
+  public Iterable<TicketResponse> findAllWithUser(String username, boolean assigned) {
+    return assigned
+        ? ticketMapper.toResponses(ticketRepository.findAllAssignedBy(username))
+        : ticketMapper.toResponses(ticketRepository.findAllByCreatedBy_Username(username));
+  }
+
+  @Override
   public Optional<TicketResponse> findOne(Long id) {
     return ticketRepository.findById(id).map(ticketMapper::toResponse);
+  }
+
+  @Override
+  public Optional<TicketResponse> findOneWithUser(String username, Long id) {
+    return ticketRepository
+        .findById(id)
+        .filter(ticket -> ticket.isOwned(username) || ticket.isAssigned(username))
+        .map(ticketMapper::toResponse);
   }
 
   @Override
@@ -63,10 +79,19 @@ public class TicketServiceImpl implements TicketService {
   @Override
   public Optional<TicketResponse> update(Long id, UpdateTicketRequest request) {
     var ticketOpt = ticketRepository.findById(id);
-    if (ticketOpt.isEmpty()) {
-      return Optional.empty();
-    }
+    return ticketOpt.flatMap(ticket -> update(request, ticket));
+  }
 
+  @Override
+  public Optional<TicketResponse> updateWithUser(
+      String username, Long id, UpdateTicketRequest request) {
+    var ticketOpt = ticketRepository.findById(id);
+    return ticketOpt
+        .filter(ticket -> ticket.isOwned(username) || ticket.isAssigned(username))
+        .flatMap(ticket -> update(request, ticket));
+  }
+
+  private Optional<TicketResponse> update(UpdateTicketRequest request, Ticket ticket) {
     Optional<Category> category = Optional.empty();
     if (request.getCategoryId() != null) {
       category = categoryRepository.findById(request.getCategoryId());
@@ -76,7 +101,6 @@ public class TicketServiceImpl implements TicketService {
       }
     }
 
-    var ticket = ticketOpt.get();
     ticketMapper.update(request, ticket);
     category.ifPresent(ticket::setCategory);
     ticketRepository.save(ticket);
@@ -91,16 +115,30 @@ public class TicketServiceImpl implements TicketService {
   @Override
   public Optional<TicketResponse> updateStatus(Long id, UpdateTicketStatusRequest request) {
     var ticketOpt = ticketRepository.findById(id);
+    return ticketOpt.flatMap(ticket -> updateStatus(request, ticket));
+  }
+
+  @Override
+  public Optional<TicketResponse> updateStatusWithUser(
+      String username, Long id, UpdateTicketStatusRequest request) {
+    var ticketOpt = ticketRepository.findById(id);
     if (ticketOpt.isEmpty()) {
       return Optional.empty();
     }
+    var ticket = ticketOpt.get();
+    if (ticket.isAssigned(username)) {
+      return updateStatus(request, ticket);
+    }
 
+    throw new AuthorizationDeniedException("You don't have permission to update this ticket");
+  }
+
+  private Optional<TicketResponse> updateStatus(UpdateTicketStatusRequest request, Ticket ticket) {
     if (request.getStatus() == TicketStatus.PENDING) {
       throw new ResponseStatusException(
           HttpStatus.BAD_REQUEST, "Update pending status is not allowed!");
     }
 
-    var ticket = ticketOpt.get();
     ticket.setStatus(request.getStatus());
     ticketRepository.save(ticket);
 
