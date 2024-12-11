@@ -1,0 +1,33 @@
+package vn.id.tozydev.uthsupport.backend.controllers;
+
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import vn.id.tozydev.uthsupport.backend.models.dtos.auth.LoginForm;
+import vn.id.tozydev.uthsupport.backend.models.dtos.auth.RegisterForm;
+import vn.id.tozydev.uthsupport.backend.models.dtos.auth.TokenResponse;
+import vn.id.tozydev.uthsupport.backend.models.dtos.user.UserResponse;
+import vn.id.tozydev.uthsupport.backend.services.AuthService;
+
+@RestController
+@RequestMapping(path = ApiPaths.AUTH, produces = MediaType.APPLICATION_JSON_VALUE)
+@AllArgsConstructor
+public class AuthController extends BaseController {
+  private final AuthService authService;
+
+  @PostMapping(ApiPaths.REGISTER_ONLY)
+  public ResponseEntity<UserResponse> register(@Valid @RequestBody RegisterForm form) {
+    var response = authService.register(form);
+    return created(response);
+  }
+
+  @PostMapping(ApiPaths.LOGIN_ONLY)
+  public ResponseEntity<TokenResponse> login(@Valid @RequestBody LoginForm form) {
+    return ok(authService.login(form));
+  }
+}

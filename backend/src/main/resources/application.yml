@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: UTH Support Backend
+
+  mvc:
+    problemdetails:
+      enabled: true
+
+app:
+  security:
+    jwt:
+      expiration-seconds: 3600
+      issuer: UTH Support Api
+      public-key: classpath:keys/public.pem
+      private-key: classpath:keys/private.pem
