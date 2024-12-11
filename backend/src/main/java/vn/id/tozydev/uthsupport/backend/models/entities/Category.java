@@ -6,12 +6,14 @@ import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Getter
 @Setter
 @ToString
 @Entity
 @Table(name = "categories")
+@EntityListeners(AuditingEntityListener.class)
 public class Category extends BaseEntity {
   @Column(nullable = false)
   private String name;

@@ -78,94 +78,91 @@ public class UthSupportBackendApplication {
       TicketRepository ticketRepository,
       CommentRepository commentRepository) {
     return args -> {
-      var admin =
-          userRepository.save(
-              createUser(
-                  passwordEncoder,
-                  UserRole.ADMIN,
-                  "admin",
-                  "admin@tozydev.id.vn",
-                  "Administrator"));
-      var lecture1 =
-          userRepository.save(
-              createUser(
-                  passwordEncoder,
-                  UserRole.LECTURE,
-                  "lecture_1",
-                  "lecture.1@tozydev.id.vn",
-                  "Lecture 1"));
-      var lecture2 =
-          userRepository.save(
-              createUser(
-                  passwordEncoder,
-                  UserRole.LECTURE,
-                  "lecture_2",
-                  "lecture.2@tozydev.id.vn",
-                  "Lecture 2"));
-      var lecture3 =
-          userRepository.save(
-              createUser(
-                  passwordEncoder,
-                  UserRole.LECTURE,
-                  "lecture_3",
-                  "lecture.3@tozydev.id.vn",
-                  "Lecture 3"));
-      var student1 =
-          userRepository.save(
-              createUser(
-                  passwordEncoder,
-                  UserRole.STUDENT,
-                  "student_1",
-                  "student.1@tozydev.id.vn",
-                  "Student 1"));
-      var student2 =
-          userRepository.save(
-              createUser(
-                  passwordEncoder,
-                  UserRole.STUDENT,
-                  "student_2",
-                  "student.2@tozydev.id.vn",
-                  "Student 2"));
-      var student3 =
-          userRepository.save(
-              createUser(
-                  passwordEncoder,
-                  UserRole.STUDENT,
-                  "student_3",
-                  "student.3@tozydev.id.vn",
-                  "Student 3"));
+      if (userRepository.count() == 0) {
+        userRepository.save(
+            createUser(
+                passwordEncoder, UserRole.ADMIN, "admin", "admin@tozydev.id.vn", "Administrator"));
+        var lecture1 =
+            userRepository.save(
+                createUser(
+                    passwordEncoder,
+                    UserRole.LECTURE,
+                    "lecture_1",
+                    "lecture.1@tozydev.id.vn",
+                    "Lecture 1"));
+        var lecture2 =
+            userRepository.save(
+                createUser(
+                    passwordEncoder,
+                    UserRole.LECTURE,
+                    "lecture_2",
+                    "lecture.2@tozydev.id.vn",
+                    "Lecture 2"));
+        var lecture3 =
+            userRepository.save(
+                createUser(
+                    passwordEncoder,
+                    UserRole.LECTURE,
+                    "lecture_3",
+                    "lecture.3@tozydev.id.vn",
+                    "Lecture 3"));
+        var student1 =
+            userRepository.save(
+                createUser(
+                    passwordEncoder,
+                    UserRole.STUDENT,
+                    "student_1",
+                    "student.1@tozydev.id.vn",
+                    "Student 1"));
+        var student2 =
+            userRepository.save(
+                createUser(
+                    passwordEncoder,
+                    UserRole.STUDENT,
+                    "student_2",
+                    "student.2@tozydev.id.vn",
+                    "Student 2"));
+        var student3 =
+            userRepository.save(
+                createUser(
+                    passwordEncoder,
+                    UserRole.STUDENT,
+                    "student_3",
+                    "student.3@tozydev.id.vn",
+                    "Student 3"));
 
-      var category1 =
-          categoryRepository.save(createCategory("Category 1", Set.of(lecture1, lecture2)));
-      var category2 =
-          categoryRepository.save(createCategory("Category 2", Set.of(student1, student2)));
-      var category3 =
-          categoryRepository.save(createCategory("Category 3", Set.of(lecture1, student1)));
+        var category1 =
+            categoryRepository.save(createCategory("Category 1", Set.of(lecture1, lecture2)));
+        var category2 =
+            categoryRepository.save(createCategory("Category 2", Set.of(student1, student2)));
+        var category3 =
+            categoryRepository.save(createCategory("Category 3", Set.of(lecture1, student1)));
 
-      var now = Instant.now();
-      var ticket1 = ticketRepository.save(createTicket("Ticket 1", category1, lecture3, now));
-      var ticket2 =
-          ticketRepository.save(
-              createTicket("Ticket 2", category2, lecture1, now.plusSeconds(3600)));
-      var ticket3 =
-          ticketRepository.save(
-              createTicket("Ticket 3", category3, lecture2, now.minusSeconds(1000)));
-      var ticket4 =
-          ticketRepository.save(
-              createTicket("Ticket 4", category1, student1, now.plusSeconds(44334)));
-      var ticket5 =
-          ticketRepository.save(
-              createTicket("Ticket 5", category2, student3, now.minusSeconds(33223)));
-      var ticket6 =
-          ticketRepository.save(
-              createTicket("Ticket 6", category3, student2, now.minusSeconds(3043)));
+        var now = Instant.now();
+        var ticket1 = ticketRepository.save(createTicket("Ticket 1", category1, lecture3, now));
+        var ticket2 =
+            ticketRepository.save(
+                createTicket("Ticket 2", category2, lecture1, now.plusSeconds(3600)));
+        var ticket3 =
+            ticketRepository.save(
+                createTicket("Ticket 3", category3, lecture2, now.minusSeconds(1000)));
+        var ticket4 =
+            ticketRepository.save(
+                createTicket("Ticket 4", category1, student1, now.plusSeconds(44334)));
+        var ticket5 =
+            ticketRepository.save(
+                createTicket("Ticket 5", category2, student3, now.minusSeconds(33223)));
+        var ticket6 =
+            ticketRepository.save(
+                createTicket("Ticket 6", category3, student2, now.minusSeconds(3043)));
 
-      commentRepository.save(createComment(ticket1));
-      commentRepository.save(createComment(ticket2));
-      commentRepository.save(createComment(ticket3));
-      commentRepository.save(createComment(ticket4));
-      commentRepository.save(createComment(ticket5));
-      commentRepository.save(createComment(ticket6));
+        commentRepository.save(createComment(ticket1));
+        commentRepository.save(createComment(ticket2));
+        commentRepository.save(createComment(ticket3));
+        commentRepository.save(createComment(ticket4));
+        commentRepository.save(createComment(ticket5));
+        commentRepository.save(createComment(ticket6));
+      }
     };
   }
 }
