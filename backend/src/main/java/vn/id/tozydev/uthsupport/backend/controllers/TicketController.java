@@ -2,6 +2,7 @@ package vn.id.tozydev.uthsupport.backend.controllers;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +14,12 @@ import vn.id.tozydev.uthsupport.backend.models.dtos.ticket.UpdateTicketStatusReq
 import vn.id.tozydev.uthsupport.backend.models.enums.UserRole;
 import vn.id.tozydev.uthsupport.backend.security.annotations.AdminOnly;
 import vn.id.tozydev.uthsupport.backend.services.TicketService;
+import vn.id.tozydev.uthsupport.backend.swagger.RequireAuth;
 
 @RestController
-@RequestMapping(ApiPaths.TICKETS)
+@RequestMapping(path = ApiPaths.TICKETS, produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
+@RequireAuth
 public class TicketController extends BaseController {
   private final TicketService ticketService;
 

@@ -2,6 +2,7 @@ package vn.id.tozydev.uthsupport.backend.controllers;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +15,7 @@ import vn.id.tozydev.uthsupport.backend.models.dtos.user.UserResponse;
 import vn.id.tozydev.uthsupport.backend.services.AuthService;
 
 @RestController
-@RequestMapping(value = ApiPaths.AUTH)
+@RequestMapping(path = ApiPaths.AUTH, produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 public class AuthController extends BaseController {
   private final AuthService authService;

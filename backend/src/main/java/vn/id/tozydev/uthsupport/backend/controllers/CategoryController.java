@@ -2,6 +2,7 @@ package vn.id.tozydev.uthsupport.backend.controllers;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -12,10 +13,12 @@ import vn.id.tozydev.uthsupport.backend.models.dtos.category.UpdateCategoryReque
 import vn.id.tozydev.uthsupport.backend.models.dtos.user.UserResponse;
 import vn.id.tozydev.uthsupport.backend.security.annotations.AdminOnly;
 import vn.id.tozydev.uthsupport.backend.services.CategoryService;
+import vn.id.tozydev.uthsupport.backend.swagger.RequireAuth;
 
 @RestController
-@RequestMapping(ApiPaths.CATEGORIES)
+@RequestMapping(path = ApiPaths.CATEGORIES, produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
+@RequireAuth
 public class CategoryController extends BaseController {
   private final CategoryService categoryService;
 

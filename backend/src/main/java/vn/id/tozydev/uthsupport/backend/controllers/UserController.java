@@ -2,6 +2,7 @@ package vn.id.tozydev.uthsupport.backend.controllers;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -10,11 +11,13 @@ import vn.id.tozydev.uthsupport.backend.models.dtos.user.UpdateUserRequest;
 import vn.id.tozydev.uthsupport.backend.models.dtos.user.UserResponse;
 import vn.id.tozydev.uthsupport.backend.security.annotations.AdminOnly;
 import vn.id.tozydev.uthsupport.backend.services.UserService;
+import vn.id.tozydev.uthsupport.backend.swagger.RequireAuth;
 
 @AdminOnly
 @RestController
-@RequestMapping(ApiPaths.USERS)
+@RequestMapping(path = ApiPaths.USERS, produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
+@RequireAuth
 public class UserController extends BaseController {
   private final UserService userService;
 
