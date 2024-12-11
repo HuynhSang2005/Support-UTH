@@ -1,5 +1,4 @@
 .idea/**
-!.idea/google-java-format.xml
 
 *.pem
 *.pub
