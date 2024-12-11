@@ -14,3 +14,4 @@
    ```shell
    docker compose up
    ```
+5. Truy cập http://localhost:8080/swagger-ui/index.html để test api.
